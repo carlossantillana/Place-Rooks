@@ -12,6 +12,7 @@ TEST_CASE("Testing readBoard()") {
   SECTION( "Testing valid input" ) {
     vector<vector<bool>> board;
     vector<pair<int,int>> rooks;
+
     readBoard("validBoard.txt", board, rooks);
     CHECK_NOTHROW(intersects(board));
     REQUIRE( board.size() == 8 );
@@ -62,12 +63,31 @@ TEST_CASE("Testing updateBoard()") {
   vector<vector<bool>> board;
   vector<pair<int,int>> rooks;
   vector<pair<int,int>> newRook;
+  vector<vector<bool>> expected;
+  vector<bool> rowOne = {1,0,0,0,0,0,0,0};
+  vector<bool> rowTwo = {0,0,1,0,0,0,0,0};
+  vector<bool> rowThree = {0,1,0,0,0,0,0,0};
+  vector<bool> rowFour = {0,0,0,1,0,0,0,0};
+  vector<bool> rowFive = {0,0,0,0,1,0,0,0};
+  vector<bool> rowSix = {0,0,0,0,0,1,0,0};
+  vector<bool> rowSeven = {0,0,0,0,0,0,1,0};
+  vector<bool> rowEight = {0,0,0,0,0,0,0,1};
+  expected.push_back(rowOne);
+  expected.push_back(rowTwo);
+  expected.push_back(rowThree);
+  expected.push_back(rowFour);
+  expected.push_back(rowFive);
+  expected.push_back(rowSix);
+  expected.push_back(rowSeven);
+  expected.push_back(rowEight);
 
   readBoard("validBoard.txt", board, rooks);
   CHECK_NOTHROW(intersects(board));
   newRooks(rooks, newRook);
   updateBoard(newRook, board);
   CHECK_NOTHROW(intersects(board));
+  CHECK_THAT(board, Catch::Equals(expected));
+
 }
 
 TEST_CASE("Testing intersects()") {
@@ -90,5 +110,19 @@ TEST_CASE("Testing intersects()") {
     vector<pair<int,int>> rooks;
     readBoard("validBoard.txt", board, rooks);
     CHECK_NOTHROW(intersects(board));
+  }
+
+  SECTION( "Testing chess board too short length wise" ) {
+    vector<vector<bool>> board;
+    vector<pair<int,int>> rooks;
+    readBoard("shortBoardLengthWise.txt", board, rooks);
+    REQUIRE_THROWS_WITH(intersects(board), Catch::Contains("Error: Board provided too short"));
+  }
+
+  SECTION( "Testing chess board too short column wise" ) {
+    vector<vector<bool>> board;
+    vector<pair<int,int>> rooks;
+    readBoard("shortBoardRowWise.txt", board, rooks);
+    REQUIRE_THROWS_WITH(intersects(board), Catch::Contains("Error: Board provided too short"));
   }
 }
