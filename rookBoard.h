@@ -14,5 +14,5 @@ void updateBoard(vector<pair<int,int>> &newRook, vector<vector<bool>> &board);
 
 void printBoard(vector<vector<bool>> &board);
 
-bool conflict(vector<vector<bool>> &board);
+void intersects(vector<vector<bool>> &board);
 #endif

@@ -5,13 +5,17 @@ void readBoard (string fileName, vector<vector<bool>> &board,
 void newRooks(vector<pair<int,int>> &rooks, vector<pair<int,int>> &newRook);
 void updateBoard(vector<pair<int,int>> &newRook, vector<vector<bool>> &board);
 void printBoard(vector<vector<bool>> &board);
+void intersects(vector<vector<bool>> &board);
 
 int main (int argc, char* argv[]) {
     vector<vector<bool>> board;
     vector<pair<int,int>> rooks;
     vector<pair<int,int>> newRook;
+    string fileName;
 
-    readBoard(argv[1], board, rooks);
+    argc > 1 ? fileName = argv[1] : fileName = "";
+    readBoard(fileName, board, rooks);
+    intersects(board);
     cout << "initial board\n";
     printBoard(board);
     newRooks(rooks, newRook);
