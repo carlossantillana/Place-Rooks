@@ -81,11 +81,8 @@ void newRooks(vector<pair<int,int>> &rooks, vector<pair<int,int>> &newRook){
 }
 
 void updateBoard(vector<pair<int,int>> &newRook, vector<vector<bool>> &board){
-  int current = 0;
   for (auto& r : newRook){
-    if (board.size() < current){
       board.at(r.second).at(r.first) = 1;
-    }
   }
 }
 void printBoard(vector<vector<bool>> &board){
@@ -104,9 +101,15 @@ void printBoard(vector<vector<bool>> &board){
 
 void intersects(vector<vector<bool>> &board){
   bool intersecting = false;
+  if (board.size() < 8){
+    throw invalid_argument( "Error: Board provided too short" );
+  }
   for (int i = 0; i < board.size(); i++){
     int numRooks = 0;
-    for (int j = 0; j < board.at(0).size() && !intersecting; j++){
+    for (int j = 0; j < board.at(i).size() && !intersecting; j++){
+      if (board.at(i).size() < 8){
+        throw invalid_argument( "Error: Board provided too short" );
+      }
         if (board.at(i).at(j) == 1){
           numRooks++;
         }
@@ -115,7 +118,7 @@ void intersects(vector<vector<bool>> &board){
         }
     }
     numRooks = 0;
-    for (int j = 0; j < board.at(0).size() && !intersecting; j++){
+    for (int j = 0; j < board.at(i).size() && !intersecting; j++){
         if (board.at(j).at(i) == 1){
           numRooks++;
         }
